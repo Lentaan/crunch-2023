@@ -3,8 +3,7 @@ Test de site éco-conception from scratch pour le crunch à l'UTT 2023, projet p
 
 Le site fonctionnerait comme un flat CMS qui pourrait produire des sites vitrine pour différentes associations liées à l'UTT.
 
-Voir le schéma pour comprendre à peu près son fonctionnement.
-![Schéma](/diagram_solution_from_scratch.svg)
+Voir le [schéma](/diagram_solution_from_scratch.svg) pour comprendre à peu près son fonctionnement.
 
 ## Comment ça fonctionne ? (pas vraiment pour le moment)
 Dans une démarche lowtech, ce CMS se veut le plus minimaliste, accessible et performant possible. Il serait utiliser pour créer des sites vitrine.
