@@ -39,9 +39,9 @@ Les pages sont créer en cliquant sur "ajouter un page" qui ouvre le formulaire 
 #### Modification de pages (pas encore implémenter) 
 Les pages peuvent être modifier avec l'icône de modification. 
 
-=========
+***
 Chacun des changements sur l'admin aura une répercussion sur index.html, qui sera regénéré pour prendre en compte les changements. On doit cliquer sur valider les changements pour regénérer le index.html. On pourra avoir une preview des pages avant de confirmer le changement de index.html. Sinon, on pourra faire des backup temporaire des fichiers (brouillon) pour un changement en cours qu'on pourra choisir grâce à un select dans la page. (pas encore implémenter)
-=========
+***
 
 ### Front (pas encore implémenter)
 Le front n'aura qu'un seule fichier avec un dossier d'images qui seront uploader par nos formulaire et passer sous notre outil de compression d'image.
