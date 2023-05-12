@@ -10,9 +10,11 @@ Dans une démarche lowtech, ce CMS se veut le plus minimaliste, accessible et pe
 
 ### Admin - BLOCS (fait en partie)
 Les blocs sont les éléments modulables créer par des formulaires. Ces derniers sont présentés dans des balises HTML détails qui permettent d'avoir une présentation en accordéons des blocs et donc d'avoir une meilleur ergonomie. Ces blocs sont des templates html qui permettent de les ajouter facilement dans les pages en rajoutant seulement des blocs dans les slots disponible. 
+
 Cela permettra d'avoir seulement quelques champs à changer quand on ajoutera un bloc dans une page.
 Ces blocs seront sauvegarder dans un fichier JSON, pour pouvoir les recréer quand on retourne sur l'admin. 
 La structure de ce fichier sera un tableau d'objet bloc. 
+
 Ces derniers ont comme propriétés : leur attributs, leur style, leur blocs, leur nom et leur slug (id du template)
 L'arborescence de bloc d'un bloc sera fait de bas en haut (l'élément avec le plus de niveau d'imbriquement est en haut et celui avec le plus bas est en bas), l'index des niveaux sera sauvegardé dans un tableau. Cette solution est choisie pour ne pas avoir trop d'imbrication et donc de boucles et donc trop de complexité (pas encore implémenter) 
 
