@@ -6,7 +6,7 @@ Le site fonctionnerait comme un flat CMS qui pourrait produire des sites vitrine
 Voir le schéma pour comprendre à peu près son fonctionnement.
 ![Schéma](/diagram_solution_from_scratch.svg)
 
-## COMMENT çA FONCTIONNE ?
+## Comment ça fonctionne ? (pas vraiment pour le moment)
 Dans une démarche lowtech, ce CMS se veut le plus minimaliste, accessible et performant possible. Il serait utiliser pour créer des sites vitrine.
 
 ### Admin - BLOCS (fait en partie)
