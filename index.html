@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <template id="primary-nav">
+        <slot name="title"></slot>
+        <slot name="logo"></slot>
+        <nav>
+            <ul>
+                <slot name="item"></slot>
+            </ul>
+        </nav>
+        <slot name="content"></slot>
+    </template>
+    <template id="section-one">
+        <h1 slot="title"></h1>
+        <p slot="content"></p>
+    </template>
+    <template id="section-two">
+        <p slot="content"></p>
+    </template>
+
+    <script>
+        customElements.define('section-one',
+            class extends HTMLElement {
+                constructor() {
+                    super();
+                    const template = document
+                        .getElementById('section-one')
+                        .content;
+                    const shadowRoot = this.attachShadow({mode: 'open'})
+                        .appendChild(template.cloneNode(true));
+                }
+            }
+        );
+
+        customElements.define('primary-nav',
+            class extends HTMLElement {
+                constructor() {
+                    super();
+                    const template = document
+                        .getElementById('primary-nav')
+                        .content;
+                    const shadowRoot = this.attachShadow({mode: 'open'})
+                        .appendChild(template.cloneNode(true));
+                    console.log(shadowRoot);
+                }
+            }
+        );
+        /*let template = document.getElementById('section-two');
+        let templateContent = template.content;
+        document.body.appendChild(templateContent);*/
+        async function getElements(json) {
+            const response = await fetch(json);
+            const elements = await response.json();
+            const primaryNav = document.createElement('primary-nav');
+            const navItem = document.createElement('li');
+            const title = document.createElement('h1');
+            navItem.slot = 'title';
+            navItem.slot = 'item';
+            console.log(primaryNav.appendChild(navItem));
+            document.getElementsByTagName('body')[0].appendChild(primaryNav);
+            /*elements.forEach(function (el) {
+            })*/
+        }
+
+        getElements('pages.json');
+    </script>
+</body>
+</html>

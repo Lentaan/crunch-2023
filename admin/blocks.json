@@ -1,0 +1,16 @@
+[
+  {
+    "slug" : "header",
+    "title" : "Header | Élément titre principal",
+    "template" : "<header class='principal'><h1 class='title'><slot name='title'>AAAAAAAAAH</slot></h1></header>",
+    "blocks" : [
+      {
+        "name" : "header"
+      }
+    ],
+    "slots" : [
+      "name"
+    ],
+    "style" : ""
+  }
+]

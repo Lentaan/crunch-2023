@@ -1,0 +1,20 @@
+[
+  {
+    "slug" : "homepage",
+    "title" : "Accueil",
+    "content" : {
+      "section_1" : "Machin bidule",
+      "section_2" : "AAAh"
+    },
+    "modules" : []
+  },
+  {
+    "slug" : "bidule",
+    "title" : "Page bidule",
+    "content" : {
+      "section_1" : "Machin bidule",
+      "section_2" : "AAAh"
+    },
+    "modules" : []
+  }
+]

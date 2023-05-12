@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Backoffice</title>
+</head>
+<body>
+<h1>Backoffice | Gestion des pages et des blocs</h1>
+<div id="pages">
+</div>
+<div id="blocks">
+    <h2>Liste des blocs disponible</h2>
+    <button class="btn-add new-block">Créer un bloc</button>
+    <details>
+        <summary>Bloc : Header Principal</summary>
+        <p><strong>Nom du bloc : </strong><span>Bloc : Header Principal</span></p>
+        <p><strong>Slug du bloc : </strong><span>header-principal</span></p>
+        <h4>Attributs du bloc :</h4>
+        <ul>
+            <li><strong>Infobulle : </strong><span>Bloc : Header Principal</span></li>
+        </ul>
+        <div class="container-blocks">
+            <h4>Liste des blocs</h4>
+            <details>
+                <summary>HTML : Header</summary>
+                <p><strong>Nom du bloc : </strong><span>HTML : Header</span></p>
+                <p><strong>Slug du bloc : </strong><span>header</span></p>
+                <div class="container-blocks">
+                    <h4>Liste des blocs</h4>
+                    <details>
+                        <summary>HTML : H1</summary>
+                        <p><strong>Nom du bloc : </strong><span>SLOT</span></p>
+                        <p><strong>Slug du bloc : </strong><span>slot</span></p>
+                        <h4>Attributs du bloc :</h4>
+                        <ul>
+                            <li><strong>Nom du slot : </strong><span>title</span></li>
+                        </ul>
+                    </details>
+                </div>
+            </details>
+        </div>
+    </details>
+</div>
+
+<template data-template="form" id="add-page">
+    <form id="addPage">
+        <label for="title">Titre de la page</label>
+        <input type="text" name="title" id="title" >
+        <label for="content">Description de la page</label>
+        <input type="text" name="content" id="content" >
+        <add-field slot="field"></add-field>
+    </form>
+</template>
+
+<template data-template="form" id="add-block">
+    <form id="addBlock">
+        <label for="select-type-block">Sélectionner le type de bloc</label>
+        <select name="select-type-block" id="select-type-block">
+            <slot name="block-type-option">
+                <option value="">Aucune option</option>
+            </slot>
+        </select>
+    </form>
+</template>
+
+<template data-template="form" id="new-block">
+    <form id="newBlock">
+        <label>
+            Block name :
+            <input type="text" name="name">
+        </label>
+        <div class="container-attr">
+            <slot name="attrs"></slot>
+        </div>
+        <div class="container-block">
+            <slot name="blocks"></slot>
+        </div>
+    </form>
+</template>
+
+<template data-template="form" id="add-field">
+    <label><slot name="label"></slot></label>
+    <slot name="field"></slot>
+</template>
+
+<template data-template="form" id="new-tree">
+    <h2>Arbre des pages</h2>
+    <button class="btn-add add-page">Ajouter une page</button>
+    <div>
+        <slot name="twigs"></slot>
+    </div>
+</template>
+
+<template data-template="form" id="new-twig">
+    <details>
+        <summary>
+            <slot name="title"></slot>
+        </summary>
+        <slot name="content"></slot>
+        <button id="addBloc" class="btn-add add-twig">Ajouter un bloc</button>
+    </details>
+</template>
+
+    <script>
+        let templateChoice = [];
+        let elements = {
+            header: "En-tête",
+            a: "Lien",
+            dialog: "Pop-up",
+            article: "Article - conteneur",
+            aside: "Contenue Annexe - conteneur",
+            section: "Section - conteneur",
+            p: "Paragraphe",
+            h1: "Titre principal",
+            h2: "Titre secondaire",
+            h3: "Titre - nv 3",
+            h4: "Titre - nv 4",
+            h5: "Titre - nv 5",
+            h6: "Titre - nv 6",
+            span: "Spécificateur de texte",
+            div: "Spécificateur de bloc",
+        }
+        function isCustomElement(element){
+            if(element.tagName.indexOf("-") !== -1) {
+                return true;
+            }
+            let isAttribute = element.getAttribute("is");
+            if(isAttribute === null) {
+                return false;
+            }
+            return isAttribute.indexOf("-") !== -1;
+        }
+        async function getElements(json) {
+            const response = await fetch(json);
+            return await response.json();
+        }
+        function ready(fn) {
+            if (document.readyState !== 'loading') {
+                fn();
+                return;
+            }
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+
+        function addBlock(id, event) {
+            customElements.define(id,
+                class extends HTMLElement {
+                    constructor() {
+                        super();
+                        const template = document
+                            .getElementById(id)
+                            .content;
+                        const shadowRoot = this.attachShadow({mode: 'open'})
+                            .appendChild(template.cloneNode(true));
+                    }
+
+                    connectedCallback() {
+                        if (event) {
+                            const button = this.shadowRoot.getElementById("addBloc")
+                            button.addEventListener('click', e => addForm(this))
+                        }
+                    }
+                }
+            )
+        }
+        function addBlockToPage(id, page, slots = '', hasSlot = true) {
+            if (!hasSlot) {
+                const template = document.getElementById(id);
+                const templateContent = template.content;
+                page.appendChild(templateContent);
+            } else {
+                page.insertAdjacentHTML('beforeend', `<${id}>${slots}</${id}>`);
+            }
+            return page.lastChild
+        }
+        function addForm(form) {
+            form.insertAdjacentHTML('beforeend', "<add-block></add-block>")
+        }
+
+        function addClick(button) {
+            button.addEventListener('click', function (e) {
+                console.log(e);
+            })
+        }
+
+        const pages = getElements('pages.json');
+        const blocks = getElements('blocks.json');
+
+        ready(() => {
+            const templates = document.getElementsByTagName("template");
+            const containerPages = document.getElementById('pages');
+            const containerBlocks = document.getElementById('blocks');
+            for (const template of templates) {
+                if (template.id === "new-twig") {
+                    addBlock(template.id, (button) => addClick(button, ));
+                } else {
+                    addBlock(template.id);
+                }
+
+                if (template.dataset.template === "block") {
+                    templateChoice.push(template.id);
+                }
+            }
+
+            blocks.then(function (el) {
+                for (const elements of el) {
+                    let templateContent =  '';
+                    for (const block of elements.blocks) {
+                        templateContent += ``
+                    }
+                    const template = `<template data-template="block" id="new-${el.slug}">
+                        ${el.template}
+                    </template>`;
+                    document.body.insertAdjacentHTML('beforeend', template);
+                    templateChoice.push(`new-${el.slug}`);
+                    addBlockToPage(`new-${el.slug}`, containerBlocks)
+                }
+            })
+
+            if (!pages) {
+                const newPage = `<new-twig slot="twigs"><h3 slot="title">Homepage</h3><p slot="content">Page d'accueil du site</p></new-twig>`
+                const tree = addBlockToPage('new-tree', containerPages, newPage);
+            } else {
+                const tree = addBlockToPage('new-tree', containerPages);
+                pages.then(function (el) {
+                    for (const page of el) {
+                        tree.insertAdjacentHTML('beforeend', `<new-twig slot="twigs"><h3 slot="title">${page.title}</h3><p slot="content">${page.slug}</p></new-twig>`)
+                    }
+                })
+            }
+
+        });
+    </script>
+</body>
+</html>
