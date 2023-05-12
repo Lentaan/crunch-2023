@@ -1,5 +1,5 @@
 # crunch-2023
-Test de site éco-conception from scratch pour le crunch à l'UTT 2023, projet proposé par l'UNG et Ulisse
+Test de CMS en éco-conception from scratch pour le crunch à l'UTT 2023, projet proposé par l'UNG et Ulisse
 
 Le site fonctionnerait comme un flat CMS qui pourrait produire des sites vitrine pour différentes associations liées à l'UTT.
 
